@@ -1,222 +1,298 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Kundli Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
 
-  <title>Individual HTML Parallax Template</title>
-<!--
+        h1, h2, h3 {
+            color: #333;
+        }
 
-Template 2096 Individual
+        form {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-https://www.tooplate.com/view/2096-individual
+        label {
+            margin-right: 10px;
+            color: #555;
+        }
 
--->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
-  <link rel="stylesheet" href="font-awesome-4.5.0/css/font-awesome.min.css">                <!-- Font Awesome -->
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
-  <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
-  <link rel="stylesheet" href="css/tooplate-style.css"><!-- tooplate style -->
-  <!-- Magnific Popup core CSS file -->
-  <link rel="stylesheet" href="css/magnific-popup.css">
+        select, input[type="checkbox"], input[type="text"], input[type="date"] {
+            margin-bottom: 10px;
+        }
 
+        .input-section {
+            margin-bottom: 20px;
+        }
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-      </head>
+        /* General Styles */
+.house-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allows wrapping for smaller screens */
+}
 
-      <body>
-        <div class="parallax-window" data-parallax="scroll" data-image-src="img/bg-img-01.jpg">
-          <section class="container tm-page-1-content">
-            <div class="row">
-              <div class="col-md-6 ml-auto tm-text-white">
-                <header><h1>Individual</h1></header>
-                <p>Individual is free parallax template by Tooplate website. You are allowed to download, edit and use this template for your business. 
-                <br><br>You are NOT allowed to re-distribute the downloadable template ZIP file on any website. If you see this on any other site, that is an illegal copy. Please contact us if you have any further question. Thank you.</p>
-                
-                  <a href="#tm-section-2" class="btn btn-danger">Explore...</a>
-              </div>
-            </div>
+.house-section {
+    width: 48%; /* Two boxes horizontally */
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fafafa;
+    box-sizing: border-box;
+}
 
-          </section>
-        </div>
-
-
-        <div id="tm-section-2" class="parallax-window" data-parallax="scroll" data-image-src="img/bg-img-02.jpg">
-          <section class="container tm-page-1-content tm-page-2">
-            <div class="row">
-              <article class="col-md-6 tm-article tm-bg-white-transparent">
-                <header><h2 >Left Column</h2></header>
-                <b>Donec id augue ac risus faucibus elementum. Quisque tincidunt, sapien et tincidunt suscipit, diam ipsum iaculis augue, nec semper orci ex a arcu. Donec efficitur sem sed ligula mollis.</b>
-              </article>
-
-              <article class="col-md-6 tm-article tm-bg-white-transparent">
-                <header><h2>Right Column</h2></header>
-                <b>Donec id augue ac risus faucibus elementum. Quisque tincidunt, sapien et tincidunt suscipit, diam ipsum iaculis augue, nec semper orci ex a arcu. Duis commodo orci libero.</b>
-                
-                  <a href="#tm-section-3" class="btn btn-danger ml-auto mr-0 tm-btn-block">Details...</a>
-              </article>
-            </div>
-          </section>
-        </div>
-        <div id="tm-section-3" class="parallax-window" data-parallax="scroll" data-image-src="img/bg-img-03.jpg">
-          <section class="container tm-page-1-content">
-            <div class="row1">
-              <div class="col-xl-6 col-md-8 ml-auto">
-                <article class="tm-bg-white-transparent-page3">
-                  <header><h5 class="tm-bg-white">Individual HTML5 Web Template</h5></header>
-                  <p class="tm-bg-white2">Do you like this template? Please tell your friends about Tooplate website. Thank you. Praesent scelerisque erat placerat tempus laoreet. Vivamus pellentesque tempor congue. Vestibulum ac diam dui. Vivamus a fringilla velit. Proin mauris enim.</p>
-                    <a href="#tm-section-4" class="btn btn-danger tm-btn-right">Read More</a>
-                </article>
-              </div>
-            </div>
-          </section>
-        </div>
-        <div id="tm-section-4" class="parallax-window" data-parallax="scroll" data-image-src="img/bg-img-04.jpg">
-
-          <div class="row tm-page-4-content">
-            <article  class="col-xs-6 col-md-4 tm-bg-white-transparent">
-              <header><h3>Nunc sagittis</h3></header>
-              <p>Orci varius natoque penatibus et  magnis dis parturient montes, nascetur ridiculus mus. Praesent vel est varius nisi posuere aliquet. Aliquam luctus, dolor vel euismod scelerisque, sem mi commodo nisi.</p>
-            </article>
-            <article class="col-xs-6 col-md-4 tm-bg-white-transparent">
-              <header><h3>Duis euismod</h3></header>
-              <p>Orci varius natoque penatibus et  magnis dis parturient montes, nascetur ridiculus mus. Praesent vel est varius nisi posuere aliquet. Aliquam luctus, dolor vel euismod scelerisque, sem mi commodo nisi.</p>
-            </article>
-            <article class="col-xs-6 col-md-4 tm-bg-white-transparent">
-              <header><h3>Ipsum vitae mattis</h3></header>
-              <p>Orci varius natoque penatibus et  magnis dis parturient montes, nascetur ridiculus mus. Praesent vel est varius nisi posuere aliquet. Aliquam luctus, sem mi commodo nisi.</p>
-            </article>
-          </div>
-        </div>
-        <div class="parallax-window" data-parallax="scroll" data-image-src="img/bg-img-05.jpg">
-          <div class="container">
-            <div class="row">
-              <div class="tm-img-container">
-                <div class="tm-img-slider">
- 
-                    <a class="image-link" href="img/gallery-img-01.jpg"><img src="img/gallery-img-01-tn.jpg" alt="Image" class="tm-slider-img"></a>
-                    <a class="image-link" href="img/gallery-img-02.jpg"><img src="img/gallery-img-02-tn.jpg" alt="Image" class="tm-slider-img"></a>
-                    <a class="image-link" href="img/gallery-img-03.jpg"><img src="img/gallery-img-03-tn.jpg" alt="Image" class="tm-slider-img"></a>  
-                    <a class="image-link" href="img/gallery-img-04.jpg"><img src="img/gallery-img-04-tn.jpg" alt="Image" class="tm-slider-img"></a>
-                    <a class="image-link" href="img/gallery-img-05.jpg"><img src="img/gallery-img-05-tn.jpg" alt="Image" class="tm-slider-img"></a>
-                    <a class="image-link" href="img/gallery-img-06.jpg"><img src="img/gallery-img-06-tn.jpg" alt="Image" class="tm-slider-img"></a>
-                      
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="parallax-window tm-position-relative tm-form-section" data-parallax="scroll" data-image-src="img/bg-img-06.jpg">
-          <div class="container ">
-            <div class="row1 ">
-              <div class="col-xs-12">
-                <header><h5>Contact Us</h5></header>
-              </div>
-            </div>
-            <div class="row tm-page-5-content">
-              <div class="col-lg-4 col-md-6 col-xs-12">
-                <div class="contact_message">                  
-                  <form action="#contact" method="post" class="contact-form">
-                    <div class="form-group">
-                      <input type="text" id="contact_name" name="contact_name" class="form-control" placeholder="Name"  required/>
-                    </div>
-                    <div class="form-group">
-                      <input type="email" id="contact_email" name="contact_email" class="form-control" placeholder="Email"  required/>
-                    </div>
-                    <div class="form-group">
-                      <textarea id="contact_message" name="contact_message" class="form-control" rows="9" placeholder="Message" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-danger tm-btn-submit">Submit</button>
-                  </form>
-                </div>
-              </div>
-              <div class="col-lg-8 col-md-6 col-xs-12">
-                <div class="tm-address-box">
-                  <p>Please visit <a rel="nofollow" href="https://www.tooplate.com/contact" target="_parent">our contact page</a> for more information about simple contact form to send email to your inbox. Maecenas condimentum tincidunt leo. Paesent scelerisque erat placerat tempus laoreet. </p>
-                  <br>
-                  <address>
-                    <b>Our Address</b><br>
-                    <br>
-                    440-660 Proin mauris enim,<br>
-                    dignissim sit amet ligula id,<br>
-                    finibus tempus erat 10200
-                  </address>
-                </div>
-              </div>
-            </div>
-
-            <div class="footer">
-              <p>Copyright © 2018 Your Company
-                . Designed by <a rel="nofollow" href="https://www.tooplate.com" target="_parent">Tooplate</a></p>
-              </div>
-            </div>
-            
-          </div>
+/* Mobile View: Stacks house sections vertically */
+@media (max-width: 768px) {
+    .house-section {
+        width: 100%; /* Full width on smaller screens */
+        margin-bottom: 10px;
+    }
+}
 
 
-          <!-- load JS files -->
-          <script src="js/jquery-1.11.3.min.js"></script>        <!-- jQuery (https://jquery.com/download/) -->
-          <script src="js/parallax.min.js"></script>
-     
-          <script type="text/javascript" src="slick/slick.min.js"></script> 
-          <!-- Slick Carousel -->
+        .toggle-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
 
-          <!-- Magnific Popup core JS file -->
-          <script src="js/jquery.magnific-popup.min.js"></script>
-          
+        .toggle-section input {
+            margin-left: 10px;
+        }
 
-          <script>
+        #varshfal-kundli {
+            display: none;
+            margin-top: 20px;
+        }
 
-            function setCarousel() {
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-              var slider = $('.tm-img-slider');
+        .submit-button:hover {
+            background: #0056b3;
+        }
 
-              if (slider.hasClass('slick-initialized')) {
-                slider.slick('destroy');
-              }
+        .hidden {
+            display: none;
+        }
 
-              if($(window).width() > 991){
-                  // Slick carousel
-                  slider.slick({
-                    dots: true,
-                    infinite: true,
-                    slidesToShow: 4,
-                    slidesToScroll: 1
-                  });
+    </style>
+    <script>
+        function toggleVarshfalKundli() {
+            const varshfalSection = document.getElementById("varshfal-kundli");
+            const addVarshfal = document.querySelector('input[name="add_varshfal"]:checked').value;
+            varshfalSection.style.display = addVarshfal === "yes" ? "block" : "none";
+        }
+
+        function createHouseSections(prefix, container) {
+            for (let i = 1; i <= 12; i += 2) {
+                const rowDiv = document.createElement("div");
+                rowDiv.className = "house-row";
+
+                for (let j = 0; j < 2; j++) {
+                    const houseNum = i + j;
+                    if (houseNum > 12) break;
+
+                    const houseDiv = document.createElement("div");
+                    houseDiv.className = "house-section";
+
+                    let houseContent = `<h3>${prefix} House ${houseNum}</h3>`;
+
+                    houseContent += `
+                        <h4>Planets in ${prefix} House ${houseNum}:</h4>
+                        <div>
+                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Sun"> Sun</label>
+                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Moon"> Moon</label>
+                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Mars"> Mars</label>
+                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Mercury"> Mercury</label>
+                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Jupiter"> Jupiter</label>
+                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Venus"> Venus</label>
+                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Saturn"> Saturn</label>
+                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Rahu"> Rahu</label>
+                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Ketu"> Ketu</label>
+                        </div>
+                    `;
+
+                    houseDiv.innerHTML = houseContent;
+                    rowDiv.appendChild(houseDiv);
                 }
-                else {
-                 slider.slick({
-                  dots: true,
-                  infinite: true,
-                  slidesToShow: 2,
-                  slidesToScroll: 1
-                });
-               }
-             }
+                container.appendChild(rowDiv);
+            }
+        }
 
-             $(document).ready(function(){
+        document.addEventListener("DOMContentLoaded", () => {
+            const birthKundliContainer = document.getElementById("birth-kundli-section");
+            const varshfalKundliContainer = document.getElementById("varshfal-kundli-section");
 
-              setCarousel();
-              $('.tm-img-slider').magnificPopup({
-                delegate: 'a', // child items selector, by clicking on it popup will open
-                type: 'image'
-                // other options
+            createHouseSections("Birth", birthKundliContainer);
+            createHouseSections("Varshfal", varshfalKundliContainer);
+        });
+    </script>
+</head>
+<body>
+    <h1>Generate Kundli Report</h1>
+    <form  method="post">
+        <div class="input-section">
+            <label for="person-name">Name:</label>
+            <input type="text" id="person-name" name="person_name" required>
 
-              });
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="date_of_birth" required>
+        </div>
 
-              $(window).resize(function() {
-                setCarousel();
-              });
+        <div class="input-section">
+            <label for="lagna-rashi">Lagna Rashi:</label>
+            <select id="lagna-rashi" name="lagna_rashi" required>
+                <option value="Aries">Aries</option>
+                <option value="Taurus">Taurus</option>
+                <option value="Gemini">Gemini</option>
+                <option value="Cancer">Cancer</option>
+                <option value="Leo">Leo</option>
+                <option value="Virgo">Virgo</option>
+                <option value="Libra">Libra</option>
+                <option value="Scorpio">Scorpio</option>
+                <option value="Sagittarius">Sagittarius</option>
+                <option value="Capricorn">Capricorn</option>
+                <option value="Aquarius">Aquarius</option>
+                <option value="Pisces">Pisces</option>
+            </select>
+        </div>
+
+        <div id="birth-kundli-section">
+            <h2>Birth Kundli</h2>
+        </div>
+
+        <div class="toggle-section">
+            <h2>Add Varshfal Kundli?</h2>
+            <label><input type="radio" name="add_varshfal" value="yes" onchange="toggleVarshfalKundli()"> Yes</label>
+            <label><input type="radio" name="add_varshfal" value="no" onchange="toggleVarshfalKundli()" checked> No</label>
+        </div>
+
+        <div id="varshfal-kundli">
+            <div id="varshfal-kundli-section">
+                <h2>Varshfal Kundli</h2>
+            </div>
+        </div>
+
+		    <button id="generateReportButton" type="submit" class="submit-button">Generate Report</button>
+
+    </form>
+	
+<script>
+    console.log('Debugging starts here');
+    document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();  // Prevent default form submission
+
+        const submitButton = document.querySelector("#generateReportButton");
+        submitButton.disabled = true; // Disable the button
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = `<span class="spinner"></span> Processing...`;
+
+        // Collect form data
+        const formData = new FormData(this);
+        const formObject = {};
+
+        formData.forEach((value, key) => {
+            if (formObject[key]) {
+                if (Array.isArray(formObject[key])) {
+                    formObject[key].push(value);
+                } else {
+                    formObject[key] = [formObject[key], value];
+                }
+            } else {
+                formObject[key] = value;
+            }
+        });
+
+        const birthChart = [];
+        for (let i = 1; i <= 12; i++) {
+            const housePlanets = formObject[`birth_house_${i}_planets`] || [];
+            birthChart.push(Array.isArray(housePlanets) ? housePlanets : [housePlanets]);
+        }
+
+        const varshfalChart = [];
+        for (let i = 1; i <= 12; i++) {
+            const housePlanets = formObject[`varshfal_house_${i}_planets`] || [];
+            varshfalChart.push(Array.isArray(housePlanets) ? housePlanets : [housePlanets]);
+        }
+
+        const finalData = {
+            person_name: formObject.person_name,
+            date_of_birth: formObject.date_of_birth,
+            lagna_rashi: formObject.lagna_rashi,
+            birth_chart: birthChart,
+            varshfal: varshfalChart,
+            add_varshfal: formObject.add_varshfal,
+        };
+
+        console.log('finalData:', finalData); 
+
+        fetch("https://l5nni4kifmbex2l2w6vjltnvje0qyhgr.lambda-url.us-east-1.on.aws/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/pdf",
+            },
+            body: JSON.stringify(finalData),
+        })
+            .then(async (response) => {
+                console.log('response...', response);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const disposition = response.headers.get("Content-Disposition");
+                let filename = "lk-report.pdf";
+                if (disposition && disposition.includes("filename=")) {
+                    filename = disposition.split("filename=")[1].replace(/"/g, "");
+                }
+
+                const blob = await response.blob();
+
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("There was an error processing the request: " + error.message);
+            })
+            .finally(() => {
+                // Revert button to original state
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
             });
+    });
+</script>
 
-          </script>
-        </body>
-        </html>
+
+</body>
+</html>
