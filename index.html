@@ -83,10 +83,10 @@
             <input type="text" id="person-name" name="person_name" required>
             <br><br>
             <label for="dob">Date of Birth:</label>
-            <input type="date" id="dob" name="date_of_birth" required>
+            <input type="date" id="dob" name="date_of_birth" value="1987-11-09" required>
             <br><br>
             <label for="tob">Time of Birth (IST):</label>
-            <input type="time" id="tob" name="time_of_birth" required>
+            <input type="time" id="tob" name="time_of_birth" value="12:00" required>
             <br><br>
             <label for="pob">Place of Birth:</label>
             <input type="text" id="pob" name="place_of_birth" required autocomplete="off">
@@ -115,150 +115,156 @@
 
         <button id="generateReportButton" type="submit" class="submit-button">Generate Report</button>
     </form>
+<script>
+    const input = document.getElementById('pob');
+    const suggestionsBox = document.getElementById('suggestions');
+    const apiKey = "22ad645923d64fe0b41d7993e83f7e12";
+    const apiUrl = "https://api.geoapify.com/v1/geocode/autocomplete";
+    let currentSuggestions = [];
+    let selectedLocation = {};
+	
+	 // Convert timezone offset to decimal format
+    function convertTimezoneToDecimal(timezone) {
+        if (!timezone) return null; // Handle empty or invalid timezone
+        const sign = timezone[0] === "-" ? -1 : 1;
+        const [hours, minutes] = timezone.slice(1).split(":").map(Number);
+        return sign * (hours + minutes / 60);
+    }
 
-    <script>
-        const input = document.getElementById('pob');
-        const suggestionsBox = document.getElementById('suggestions');
-        let apiKey = "WtwyDbFS1j4R9bSIzEHIv6KXVuYYs22O5RqnN7w8";
-        let apiUrl = "https://json.apiastro.com/geo-details";
-        let currentSuggestions = [];
-        let selectedLocation = {};
-
-        // Fetch location data
-        async function fetchLocationData(query) {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': apiKey
-                },
-                body: JSON.stringify({ location: query })
-            });
+    // Fetch location data from the new API
+    async function fetchLocationData(query) {
+        const url = `${apiUrl}?text=${encodeURIComponent(query)}&apiKey=${apiKey}`;
+        try {
+            const response = await fetch(url, { method: 'GET' });
             if (!response.ok) {
                 console.error("API Error:", response.statusText);
                 return [];
             }
-            return await response.json();
+            const result = await response.json();
+            return result.features.map(feature => ({
+                complete_name: feature.properties.formatted,
+                latitude: feature.properties.lat,
+                longitude: feature.properties.lon,
+                location_name: feature.properties.address_line1,
+                timezone_offset: convertTimezoneToDecimal(feature.properties.timezone.offset_STD),
+            }));
+        } catch (error) {
+            console.error("Fetch error:", error);
+            return [];
         }
+    }
 
-        // Render suggestions
-        function renderSuggestions(data) {
-            suggestionsBox.innerHTML = ''; // Clear previous suggestions
-            if (data.length === 0) {
-                suggestionsBox.style.display = 'none';
-                return;
-            }
-            suggestionsBox.style.display = 'block';
-            currentSuggestions = data;
-            data.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'suggestion-item';
-                div.textContent = item.complete_name;
-                div.setAttribute('data-index', index);
-                div.addEventListener('click', () => handleSelection(index));
-                suggestionsBox.appendChild(div);
-            });
+    // Render suggestions
+    function renderSuggestions(data) {
+        suggestionsBox.innerHTML = ''; // Clear previous suggestions
+        if (data.length === 0) {
+            suggestionsBox.style.display = 'none';
+            return;
         }
+        suggestionsBox.style.display = 'block';
+        currentSuggestions = data;
+        data.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'suggestion-item';
+            div.textContent = item.complete_name;
+            div.setAttribute('data-index', index);
+            div.addEventListener('click', () => handleSelection(index));
+            suggestionsBox.appendChild(div);
+        });
+    }
 
-        // Handle selection
-        function handleSelection(index) {
-            selectedLocation = currentSuggestions[index];
-            input.value = selectedLocation.complete_name;
+    // Handle selection
+    function handleSelection(index) {
+        selectedLocation = currentSuggestions[index];
+        input.value = selectedLocation.complete_name;
+        suggestionsBox.innerHTML = '';
+        suggestionsBox.style.display = 'none';
+    }
+
+    // Listen for input
+    input.addEventListener('input', async (event) => {
+        const query = event.target.value.trim();
+        if (query.length < 3) {
             suggestionsBox.innerHTML = '';
             suggestionsBox.style.display = 'none';
+            return;
+        }
+        const data = await fetchLocationData(query);
+        renderSuggestions(data);
+    });
+
+    // Form submission
+    document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const submitButton = document.querySelector("#generateReportButton");
+        submitButton.disabled = true;
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = `<span class="spinner"></span> Processing...`;
+
+        const formData = new FormData(this);
+        const finalData = {
+            person_name: formData.get("person_name"),
+            date_of_birth: formData.get("date_of_birth"),
+            time_of_birth: formData.get("time_of_birth"),
+            varshfal_date: formData.get("varshfal_date"),
+            report_type: formData.get("report_type"),
+            place_of_birth: {
+                complete_name: selectedLocation.complete_name || formData.get("place_of_birth"),
+                latitude: selectedLocation.latitude || null,
+                longitude: selectedLocation.longitude || null,
+                location_name: selectedLocation.location_name,
+                timezone_offset: selectedLocation.timezone_offset,
+            }
+        };
+
+        if (!finalData.place_of_birth.complete_name || (finalData.place_of_birth.latitude === null && finalData.place_of_birth.longitude === null)) {
+            alert("Please enter a valid place of birth.");
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+            return;
         }
 
-        // Listen for input
-        input.addEventListener('input', async (event) => {
-            const query = event.target.value.trim();
-            if (query.length < 3) {
-                suggestionsBox.innerHTML = '';
-                suggestionsBox.style.display = 'none';
-                return;
-            }
-            const data = await fetchLocationData(query);
-            renderSuggestions(data);
-        });
+        console.log('finalData:', finalData);
 
-        // Form submission
-        document.querySelector("form").addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            const submitButton = document.querySelector("#generateReportButton");
-            submitButton.disabled = true;
-            const originalText = submitButton.innerHTML;
-            submitButton.innerHTML = `<span class="spinner"></span> Processing...`;
-
-            const formData = new FormData(this);
-            const finalData = {
-                person_name: formData.get("person_name"),
-                date_of_birth: formData.get("date_of_birth"),
-                time_of_birth: formData.get("time_of_birth"),
-                varshfal_date: formData.get("varshfal_date"),
-                report_type: formData.get("report_type"),
-                place_of_birth: {
-                    complete_name: selectedLocation.complete_name || formData.get("place_of_birth"),
-                    latitude: selectedLocation.latitude || null,
-                    longitude: selectedLocation.longitude || null,
-					location_name: selectedLocation.location_name,
-					timezone_offset: selectedLocation.timezone_offset,
-					country: selectedLocation.country,
-					administrative_zone_1: selectedLocation.administrative_zone_1,
-					administrative_zone_2: selectedLocation.administrative_zone_2,
-
+        fetch("https://l5nni4kifmbex2l2w6vjltnvje0qyhgr.lambda-url.us-east-1.on.aws/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/pdf",
+            },
+            body: JSON.stringify(finalData),
+        })
+            .then(async (response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-            };
 
-            // Check if place of birth is valid and latitude/longitude are null
-            if (!finalData.place_of_birth.complete_name || (finalData.place_of_birth.latitude === null && finalData.place_of_birth.longitude === null)) {
-                alert("Please enter a valid place of birth.");
+                const disposition = response.headers.get("Content-Disposition");
+                let filename = "lk-report.pdf";
+                if (disposition && disposition.includes("filename=")) {
+                    filename = disposition.split("filename=")[1].replace(/"/g, "");
+                }
+
+                const blob = await response.blob();
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("There was an error processing the request: " + error.message);
+            })
+            .finally(() => {
                 submitButton.disabled = false;
                 submitButton.innerHTML = originalText;
-                return;
-            }
+            });
+    });
+</script>
 
-            console.log('finalData:', finalData);
 
-            fetch("https://l5nni4kifmbex2l2w6vjltnvje0qyhgr.lambda-url.us-east-1.on.aws/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/pdf",
-                },
-                body: JSON.stringify(finalData),
-            })
-                .then(async (response) => {
-                    console.log('response...', response);
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const disposition = response.headers.get("Content-Disposition");
-                    let filename = "lk-report.pdf";
-                    if (disposition && disposition.includes("filename=")) {
-                        filename = disposition.split("filename=")[1].replace(/"/g, "");
-                    }
-
-                    const blob = await response.blob();
-
-                    const link = document.createElement("a");
-                    link.href = URL.createObjectURL(blob);
-                    link.download = filename;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("There was an error processing the request: " + error.message);
-                })
-                .finally(() => {
-                    // Revert button to original state
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = originalText;
-                });
-        });
-    </script>
 </body>
 </html>
