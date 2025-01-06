@@ -5,51 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generate Kundli Report</title>
     <style>
+        /* General Styling */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9fc;
             margin: 0;
             padding: 0;
-        }
-
-        h1, h2, h3 {
             color: #333;
         }
 
+        h1 {
+            text-align: center;
+            color: maroon; /* Maroon color for title */
+            margin-top: 20px;
+        }
+
         form {
-            max-width: 900px;
+            max-width: 800px;
             margin: 20px auto;
             background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            margin-right: 10px;
-            color: #555;
-        }
-
-        select, input[type="checkbox"], input[type="text"], input[type="date"], input[type="time"] {
-            margin-bottom: 10px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
         }
 
         .input-section {
             margin-bottom: 20px;
         }
 
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        input:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
+        .submit-button {
+            width: 100%;
+            background: linear-gradient(to right, #800000, #c20000); /* Gradient of maroon color */
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background: linear-gradient(to right, #c20000, #800000);
+        }
+
         #suggestions {
             position: absolute;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             background-color: #fff;
-            max-height: 200px;
+            max-height: 150px;
             overflow-y: auto;
-            width: calc(100% - 2px);
+            width: calc(100% - 22px);
             z-index: 1000;
         }
 
         .suggestion-item {
-            padding: 8px;
+            padding: 10px;
             cursor: pointer;
         }
 
@@ -57,42 +91,55 @@
             background-color: #f0f0f0;
         }
 
-        .submit-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+        footer {
+            text-align: center;
+            margin: 20px 0;
+            color: #555;
+            font-size: 14px;
         }
 
-        .submit-button:hover {
-            background: #0056b3;
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* WhatsApp green color for the WhatsApp Group link */
+        .whatsapp-link {
+            color: #25D366; /* WhatsApp green color */
         }
     </style>
 </head>
-
 <body>
-    <h1 style="text-align: center;">Generate Kundli Report</h1>
+    <h1>Generate Kundli Report</h1>
     <form method="post">
         <div class="input-section">
             <label for="person-name">Name:</label>
-            <input type="text" id="person-name" name="person_name" required>
-            <br><br>
-            <label for="dob">Date of Birth:</label>
+            <input type="text" id="person-name" name="person_name" placeholder="Enter your name" required>
+        </div>
+
+        <div class="input-section">
+            <label for="dob">Date of Birth(DD-MM-YYYY):</label>
             <input type="date" id="dob" name="date_of_birth" value="1987-11-09" required>
-            <br><br>
+        </div>
+
+        <div class="input-section">
             <label for="tob">Time of Birth (IST):</label>
             <input type="time" id="tob" name="time_of_birth" value="12:00" required>
-            <br><br>
+        </div>
+
+        <div class="input-section">
             <label for="pob">Place of Birth:</label>
-            <input type="text" id="pob" name="place_of_birth" required autocomplete="off">
+            <input type="text" id="pob" name="place_of_birth" placeholder="Enter your place of birth" required autocomplete="off">
             <div id="suggestions"></div>
-            <br><br>
-            <label for="varshfalDate">Date for Lal Kitab Varshfal (current date will be used by default):</label>
+        </div>
+
+        <div class="input-section">
+            <label for="varshfalDate">Date for Lal Kitab Varshfal (default is current date):</label>
             <input type="date" id="varshfalDate" name="varshfal_date">
         </div>
 
@@ -115,6 +162,9 @@
 
         <button id="generateReportButton" type="submit" class="submit-button">Generate Report</button>
     </form>
+
+
+
 <script>
     const input = document.getElementById('pob');
     const suggestionsBox = document.getElementById('suggestions');
@@ -265,15 +315,14 @@
     });
 </script>
 
+
  <!-- Footer Section -->
-    <footer style="text-align: center; margin-top: 20px;">
+<footer>
         <p>
             Connect with me on 
-            <a href="https://www.linkedin.com/in/niket-singh/" target="_blank" style="color: #0a66c2; text-decoration: none;">LinkedIn</a>
-        </p>
-        <p>
+            <a href="https://www.linkedin.com/in/niket-singh/" target="_blank">LinkedIn</a> &nbsp;|&nbsp;
             Join our 
-            <a href="https://chat.whatsapp.com/BZFCTI7UcNUAlOAiaCmHwx" target="_blank" style="color: #25D366; text-decoration: none;">WhatsApp Group</a>
+            <a href="https://chat.whatsapp.com/BZFCTI7UcNUAlOAiaCmHwx" target="_blank" class="whatsapp-link">WhatsApp Group</a>
         </p>
     </footer>
 </body>
