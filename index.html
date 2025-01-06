@@ -30,7 +30,7 @@
             color: #555;
         }
 
-        select, input[type="checkbox"], input[type="text"], input[type="date"] {
+        select, input[type="checkbox"], input[type="text"], input[type="date"], input[type="time"] {
             margin-bottom: 10px;
         }
 
@@ -38,46 +38,23 @@
             margin-bottom: 20px;
         }
 
-        /* General Styles */
-.house-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap; /* Allows wrapping for smaller screens */
-}
-
-.house-section {
-    width: 48%; /* Two boxes horizontally */
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fafafa;
-    box-sizing: border-box;
-}
-
-/* Mobile View: Stacks house sections vertically */
-@media (max-width: 768px) {
-    .house-section {
-        width: 100%; /* Full width on smaller screens */
-        margin-bottom: 10px;
-    }
-}
-
-
-        .toggle-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 20px;
+        #suggestions {
+            position: absolute;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            max-height: 200px;
+            overflow-y: auto;
+            width: calc(100% - 2px);
+            z-index: 1000;
         }
 
-        .toggle-section input {
-            margin-left: 10px;
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
         }
 
-        #varshfal-kundli {
-            display: none;
-            margin-top: 20px;
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
         }
 
         .submit-button {
@@ -95,193 +72,193 @@
         .submit-button:hover {
             background: #0056b3;
         }
-
-        .hidden {
-            display: none;
-        }
-
     </style>
-    <script>
-        function toggleVarshfalKundli() {
-            const varshfalSection = document.getElementById("varshfal-kundli");
-            const addVarshfal = document.querySelector('input[name="add_varshfal"]:checked').value;
-            varshfalSection.style.display = addVarshfal === "yes" ? "block" : "none";
-        }
-
-        function createHouseSections(prefix, container) {
-            for (let i = 1; i <= 12; i += 2) {
-                const rowDiv = document.createElement("div");
-                rowDiv.className = "house-row";
-
-                for (let j = 0; j < 2; j++) {
-                    const houseNum = i + j;
-                    if (houseNum > 12) break;
-
-                    const houseDiv = document.createElement("div");
-                    houseDiv.className = "house-section";
-
-                    let houseContent = `<h3>${prefix} House ${houseNum}</h3>`;
-
-                    houseContent += `
-                        <h4>Planets in ${prefix} House ${houseNum}:</h4>
-                        <div>
-                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Sun"> Sun</label>
-                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Moon"> Moon</label>
-                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Mars"> Mars</label>
-                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Mercury"> Mercury</label>
-                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Jupiter"> Jupiter</label>
-                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Venus"> Venus</label>
-                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Saturn"> Saturn</label>
-                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Rahu"> Rahu</label>
-                            <label><input type="checkbox" name="${prefix.toLowerCase()}_house_${houseNum}_planets" value="Ketu"> Ketu</label>
-                        </div>
-                    `;
-
-                    houseDiv.innerHTML = houseContent;
-                    rowDiv.appendChild(houseDiv);
-                }
-                container.appendChild(rowDiv);createHouseSections
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const birthKundliContainer = document.getElementById("birth-kundli-section");
-            const varshfalKundliContainer = document.getElementById("varshfal-kundli-section");
-
-            createHouseSections("Birth", birthKundliContainer);
-        });
-    </script>
 </head>
+
 <body>
-    <h1>Generate Kundli Report</h1>
-    <form  method="post">
+    <h1 style="text-align: center;">Generate Kundli Report</h1>
+    <form method="post">
         <div class="input-section">
             <label for="person-name">Name:</label>
             <input type="text" id="person-name" name="person_name" required>
-			<br>
+            <br><br>
             <label for="dob">Date of Birth:</label>
             <input type="date" id="dob" name="date_of_birth" required>
-			<br>
-			<label for="varshfalDate">Date for Varshfal(current date will be used by default):</label>
+            <br><br>
+            <label for="tob">Time of Birth (IST):</label>
+            <input type="time" id="tob" name="time_of_birth" required>
+            <br><br>
+            <label for="pob">Place of Birth:</label>
+            <input type="text" id="pob" name="place_of_birth" required autocomplete="off">
+            <div id="suggestions"></div>
+            <br><br>
+            <label for="varshfalDate">Date for Lal Kitab Varshfal (current date will be used by default):</label>
             <input type="date" id="varshfalDate" name="varshfal_date">
         </div>
 
         <div class="input-section">
-            <label for="lagna-rashi">Lagna Rashi:</label>
-            <select id="lagna-rashi" name="lagna_rashi" required>
-                <option value="Aries">Aries</option>
-                <option value="Taurus">Taurus</option>
-                <option value="Gemini">Gemini</option>
-                <option value="Cancer">Cancer</option>
-                <option value="Leo">Leo</option>
-                <option value="Virgo">Virgo</option>
-                <option value="Libra">Libra</option>
-                <option value="Scorpio">Scorpio</option>
-                <option value="Sagittarius">Sagittarius</option>
-                <option value="Capricorn">Capricorn</option>
-                <option value="Aquarius">Aquarius</option>
-                <option value="Pisces">Pisces</option>
+            <label for="report-type">Select Course:</label>
+            <select id="report-type" name="report_type" required>
+                <option value="sango_saral_jyotish" disabled>Sango Saral Jyotish</option>
+                <option value="transit" disabled>Transit</option>
+                <option value="d10" disabled>Career (D10)</option>
+                <option value="wealth_through_property" disabled>Wealth Through Property</option>
+                <option value="astro_foundation" disabled>Astro Foundation</option>
+                <option value="vimshottari" disabled>Vimshottari Dasha</option>
+                <option value="lal_kitab" selected>Lal Kitab Advanced</option>
+                <option value="vedic_remedies" disabled>Vedic Remedies</option>
+                <option value="astro_vastu" disabled>Astro Vastu</option>
+                <option value="match_making" disabled>Match Making</option>
+                <option value="ashtak" disabled>Ashtakvarga</option>
             </select>
         </div>
 
-        <div id="birth-kundli-section">
-            <h2>Birth Kundli</h2>
-        </div>
-
-       		    <button id="generateReportButton" type="submit" class="submit-button">Generate Report</button>
-
+        <button id="generateReportButton" type="submit" class="submit-button">Generate Report</button>
     </form>
-	
-<script>
-    console.log('Debugging starts here');
-    document.querySelector("form").addEventListener("submit", function (event) {
-        event.preventDefault();  // Prevent default form submission
 
-        const submitButton = document.querySelector("#generateReportButton");
-        submitButton.disabled = true; // Disable the button
-        const originalText = submitButton.innerHTML;
-        submitButton.innerHTML = `<span class="spinner"></span> Processing...`;
+    <script>
+        const input = document.getElementById('pob');
+        const suggestionsBox = document.getElementById('suggestions');
+        let apiKey = "WtwyDbFS1j4R9bSIzEHIv6KXVuYYs22O5RqnN7w8";
+        let apiUrl = "https://json.apiastro.com/geo-details";
+        let currentSuggestions = [];
+        let selectedLocation = {};
 
-        // Collect form data
-        const formData = new FormData(this);
-        const formObject = {};
-
-        formData.forEach((value, key) => {
-            if (formObject[key]) {
-                if (Array.isArray(formObject[key])) {
-                    formObject[key].push(value);
-                } else {
-                    formObject[key] = [formObject[key], value];
-                }
-            } else {
-                formObject[key] = value;
+        // Fetch location data
+        async function fetchLocationData(query) {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKey
+                },
+                body: JSON.stringify({ location: query })
+            });
+            if (!response.ok) {
+                console.error("API Error:", response.statusText);
+                return [];
             }
+            return await response.json();
+        }
+
+        // Render suggestions
+        function renderSuggestions(data) {
+            suggestionsBox.innerHTML = ''; // Clear previous suggestions
+            if (data.length === 0) {
+                suggestionsBox.style.display = 'none';
+                return;
+            }
+            suggestionsBox.style.display = 'block';
+            currentSuggestions = data;
+            data.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.textContent = item.complete_name;
+                div.setAttribute('data-index', index);
+                div.addEventListener('click', () => handleSelection(index));
+                suggestionsBox.appendChild(div);
+            });
+        }
+
+        // Handle selection
+        function handleSelection(index) {
+            selectedLocation = currentSuggestions[index];
+            input.value = selectedLocation.complete_name;
+            suggestionsBox.innerHTML = '';
+            suggestionsBox.style.display = 'none';
+        }
+
+        // Listen for input
+        input.addEventListener('input', async (event) => {
+            const query = event.target.value.trim();
+            if (query.length < 3) {
+                suggestionsBox.innerHTML = '';
+                suggestionsBox.style.display = 'none';
+                return;
+            }
+            const data = await fetchLocationData(query);
+            renderSuggestions(data);
         });
 
-        const birthChart = [];
-        for (let i = 1; i <= 12; i++) {
-            const housePlanets = formObject[`birth_house_${i}_planets`] || [];
-            birthChart.push(Array.isArray(housePlanets) ? housePlanets : [housePlanets]);
-        }
+        // Form submission
+        document.querySelector("form").addEventListener("submit", function (event) {
+            event.preventDefault();
 
-        const varshfalChart = [];
-        for (let i = 1; i <= 12; i++) {
-            const housePlanets = formObject[`varshfal_house_${i}_planets`] || [];
-            varshfalChart.push(Array.isArray(housePlanets) ? housePlanets : [housePlanets]);
-        }
+            const submitButton = document.querySelector("#generateReportButton");
+            submitButton.disabled = true;
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = `<span class="spinner"></span> Processing...`;
 
-        const finalData = {
-            person_name: formObject.person_name,
-            date_of_birth: formObject.date_of_birth,
-			varshfal_date: formObject.varshfal_date,
-            lagna_rashi: formObject.lagna_rashi,
-            birth_chart: birthChart,
-        };
+            const formData = new FormData(this);
+            const finalData = {
+                person_name: formData.get("person_name"),
+                date_of_birth: formData.get("date_of_birth"),
+                time_of_birth: formData.get("time_of_birth"),
+                varshfal_date: formData.get("varshfal_date"),
+                report_type: formData.get("report_type"),
+                place_of_birth: {
+                    complete_name: selectedLocation.complete_name || formData.get("place_of_birth"),
+                    latitude: selectedLocation.latitude || null,
+                    longitude: selectedLocation.longitude || null,
+					location_name: selectedLocation.location_name,
+					timezone_offset: selectedLocation.timezone_offset,
+					country: selectedLocation.country,
+					administrative_zone_1: selectedLocation.administrative_zone_1,
+					administrative_zone_2: selectedLocation.administrative_zone_2,
 
-        console.log('finalData:', finalData); 
-
-        fetch("https://l5nni4kifmbex2l2w6vjltnvje0qyhgr.lambda-url.us-east-1.on.aws/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/pdf",
-            },
-            body: JSON.stringify(finalData),
-        })
-            .then(async (response) => {
-                console.log('response...', response);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
+            };
 
-                const disposition = response.headers.get("Content-Disposition");
-                let filename = "lk-report.pdf";
-                if (disposition && disposition.includes("filename=")) {
-                    filename = disposition.split("filename=")[1].replace(/"/g, "");
-                }
-
-                const blob = await response.blob();
-
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = filename;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("There was an error processing the request: " + error.message);
-            })
-            .finally(() => {
-                // Revert button to original state
+            // Check if place of birth is valid and latitude/longitude are null
+            if (!finalData.place_of_birth.complete_name || (finalData.place_of_birth.latitude === null && finalData.place_of_birth.longitude === null)) {
+                alert("Please enter a valid place of birth.");
                 submitButton.disabled = false;
                 submitButton.innerHTML = originalText;
-            });
-    });
-</script>
+                return;
+            }
 
+            console.log('finalData:', finalData);
 
+            fetch("https://l5nni4kifmbex2l2w6vjltnvje0qyhgr.lambda-url.us-east-1.on.aws/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/pdf",
+                },
+                body: JSON.stringify(finalData),
+            })
+                .then(async (response) => {
+                    console.log('response...', response);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const disposition = response.headers.get("Content-Disposition");
+                    let filename = "lk-report.pdf";
+                    if (disposition && disposition.includes("filename=")) {
+                        filename = disposition.split("filename=")[1].replace(/"/g, "");
+                    }
+
+                    const blob = await response.blob();
+
+                    const link = document.createElement("a");
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("There was an error processing the request: " + error.message);
+                })
+                .finally(() => {
+                    // Revert button to original state
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                });
+        });
+    </script>
 </body>
 </html>
