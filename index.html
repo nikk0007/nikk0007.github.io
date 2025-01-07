@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generate Kundli Report</title>
-    <style>
+	
+	 <style>
         /* General Styling */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,10 +15,18 @@
             color: #333;
         }
 
-        h1 {
+        h2 {
             text-align: center;
             color: maroon; /* Maroon color for title */
             margin-top: 20px;
+        }
+		
+		h3 {
+            text-align: center;
+            color: maroon; /* Maroon color for title */
+            margin-top: 10px;
+			font-size: 14px;
+
         }
 
         form {
@@ -78,7 +87,7 @@
             background-color: #fff;
             max-height: 150px;
             overflow-y: auto;
-            width: calc(100% - 22px);
+            width: calc(55%);
             z-index: 1000;
         }
 
@@ -115,11 +124,14 @@
     </style>
 </head>
 <body>
-    <h1>Kundli Report Automation</h1>
+    <h2>Kundli Report Automation</h2>
+	 <p style="text-align: center; color: maroon; font-size: 12px;">
+        So you can focus on Just Giving Predictions and Remedies
+    </p>
     <form method="post">
         <div class="input-section">
             <label for="person-name">Name:</label>
-            <input type="text" id="person-name" name="person_name" placeholder="Enter your name" required>
+            <input type="text" id="person-name" name="person_name" placeholder="Enter name" required>
         </div>
 
         <div class="input-section">
@@ -139,8 +151,8 @@
         </div>
 
         <div class="input-section">
-            <label for="varshfalDate">Date for Lal Kitab Varshfal(dd-mm-yyyy):</label>
-            <input type="date" id="varshfalDate" name="varshfal_date">
+            <label for="varshfalYear">Select Lal Kitab Varshfal Year:</label>
+            <select id="varshfalYear" name="varshfal_year"></select>
         </div>
 
         <div class="input-section">
@@ -163,15 +175,37 @@
         <button id="generateReportButton" type="submit" class="submit-button">Generate Report</button>
     </form>
 
-
-
 <script>
+    // Populate dropdown with Varshfal years
+    document.getElementById('dob').addEventListener('change', function () {
+        const dob = new Date(this.value);
+        if (isNaN(dob)) return;
 
-	// Get today's date for varshfal in the format YYYY-MM-DD
-    const today = new Date().toISOString().split('T')[0];
-    // Set the default value for the date input
-    document.getElementById('varshfalDate').value = today;
+        const dropdown = document.getElementById('varshfalYear');
+        dropdown.innerHTML = ''; // Clear previous options
+
+        for (let i = 0; i < 80; i++) {
+            const startYear = new Date(dob);
+            startYear.setFullYear(startYear.getFullYear() + i);
+
+            const endYear = new Date(dob);
+            endYear.setFullYear(endYear.getFullYear() + i + 1);
+            endYear.setDate(endYear.getDate() - 1);
+
+            const option = document.createElement('option');
+            option.value = i + 1;
+            option.textContent = `Year ${i + 1}: ${startYear.getDate()}-${startYear.toLocaleString('default', { month: 'short' })}-${startYear.getFullYear()} to ${endYear.getDate()}-${endYear.toLocaleString('default', { month: 'short' })}-${endYear.getFullYear()}`;
+            dropdown.appendChild(option);
+        }
+		
+		dropdown.value = 25; // Select the 25th item (value is 25 since the loop assigns values starting from 1)
+
+    });
+
+    // Trigger change event to populate dropdown on page load
+    document.getElementById('dob').dispatchEvent(new Event('change'));
 	
+
     const input = document.getElementById('pob');
     const suggestionsBox = document.getElementById('suggestions');
     const apiKey = "22ad645923d64fe0b41d7993e83f7e12";
@@ -238,16 +272,27 @@
     }
 
     // Listen for input
-    input.addEventListener('input', async (event) => {
-        const query = event.target.value.trim();
+    let debounceTimer; // Declare a timer for debouncing
+
+input.addEventListener('input', function (event) {
+    const query = event.target.value.trim();
+
+    // Clear any existing timer
+    clearTimeout(debounceTimer);
+
+    // Set a new timer
+    debounceTimer = setTimeout(async () => {
         if (query.length < 3) {
             suggestionsBox.innerHTML = '';
             suggestionsBox.style.display = 'none';
             return;
         }
+
         const data = await fetchLocationData(query);
         renderSuggestions(data);
-    });
+    }, 1000); // 1000 ms delay
+});
+
 
     // Form submission
     document.querySelector("form").addEventListener("submit", function (event) {
@@ -263,7 +308,7 @@
             person_name: formData.get("person_name"),
             date_of_birth: formData.get("date_of_birth"),
             time_of_birth: formData.get("time_of_birth"),
-            varshfal_date: formData.get("varshfal_date"),
+			varshfal_year: document.querySelector("#varshfalYear").selectedOptions[0].textContent,
             report_type: formData.get("report_type"),
             place_of_birth: {
                 complete_name: selectedLocation.complete_name || formData.get("place_of_birth"),
@@ -319,8 +364,8 @@
                 submitButton.innerHTML = originalText;
             });
     });
+	
 </script>
-
 
  <!-- Footer Section -->
 <footer>
