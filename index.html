@@ -115,7 +115,7 @@
     </style>
 </head>
 <body>
-    <h1>Generate Kundli Report</h1>
+    <h1>Kundli Report Automation</h1>
     <form method="post">
         <div class="input-section">
             <label for="person-name">Name:</label>
@@ -123,7 +123,7 @@
         </div>
 
         <div class="input-section">
-            <label for="dob">Date of Birth(DD-MM-YYYY):</label>
+            <label for="dob">Date of Birth(dd-mm-yyyy):</label>
             <input type="date" id="dob" name="date_of_birth" value="1987-11-09" required>
         </div>
 
@@ -139,7 +139,7 @@
         </div>
 
         <div class="input-section">
-            <label for="varshfalDate">Date for Lal Kitab Varshfal (default is current date):</label>
+            <label for="varshfalDate">Date for Lal Kitab Varshfal(dd-mm-yyyy):</label>
             <input type="date" id="varshfalDate" name="varshfal_date">
         </div>
 
@@ -166,6 +166,12 @@
 
 
 <script>
+
+	// Get today's date for varshfal in the format YYYY-MM-DD
+    const today = new Date().toISOString().split('T')[0];
+    // Set the default value for the date input
+    document.getElementById('varshfalDate').value = today;
+	
     const input = document.getElementById('pob');
     const suggestionsBox = document.getElementById('suggestions');
     const apiKey = "22ad645923d64fe0b41d7993e83f7e12";
