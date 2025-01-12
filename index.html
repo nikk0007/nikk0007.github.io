@@ -8,11 +8,17 @@
 	 <style>
         /* General Styling */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9f9fc;
-            margin: 0;
-            padding: 0;
-            color: #333;
+            background-color: #d47f2c; 
+            font-family: Arial, sans-serif; 
+        }
+        form {
+            background-color: #f7be67; 
+            border: 1px solid #ddd; 
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px; /* Center form and set max width */
+            border-radius: 10px; /* Rounded corners for the form */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
         }
 
         h2 {
@@ -29,14 +35,7 @@
 
         }
 
-        form {
-            max-width: 800px;
-            margin: 20px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-        }
+        
 
         .input-section {
             margin-bottom: 20px;
@@ -46,7 +45,7 @@
             display: block;
             font-weight: bold;
             margin-bottom: 8px;
-            color: #555;
+            color: maroon;
         }
 
         input, select {
@@ -57,7 +56,14 @@
             border-radius: 5px;
             box-sizing: border-box;
             margin-bottom: 20px;
+	        color: #b3600e; /* Input text (value) color */
+
         }
+		
+		input::placeholder {
+        color: #f7be67; /* Placeholder color */
+        opacity: 1; /* Ensures the color is not too light */
+    }
 
         input:focus, select:focus {
             border-color: #007bff;
@@ -90,6 +96,23 @@
             width: calc(60%);
             z-index: 1000;
         }
+		
+		#suggestions {
+    position: absolute;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: 40%; /* Default width for larger screens */
+}
+
+/* For mobile devices (width less than or equal to 768px) */
+@media screen and (max-width: 768px) {
+    #suggestions {
+        width: 85%; /* Adjusted width for smaller screens */
+    }
+}
 
         .suggestion-item {
             padding: 10px;
@@ -126,7 +149,7 @@
 <body>
     <h2>Kundli Report Automation</h2>
 	 <p style="text-align: center; color: maroon; font-size: 12px;">
-        So you can focus on Just Giving Predictions and Remedies
+        Never miss any Astro Rule and Focus on Just Giving Predictions and Remedies
     </p>
     <form method="post">
         <div class="input-section">
