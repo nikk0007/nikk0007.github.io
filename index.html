@@ -200,35 +200,7 @@
 
 <script>
 
-// Slack message sender function
-    async function sendSlackMessage(message) {
-        const token = "xoxb-8295454648865-8282810315427-tFOWP34ULLwktYkrqViwvbJi";
-        const channelId = "#app-hits"; // Replace with your Slack channel name or ID
 
-        try {
-            const response = await fetch("https://slack.com/api/chat.postMessage", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    channel: channelId,
-                    text: message,
-                }),
-            });
-
-            const data = await response.json();
-
-            if (data.ok) {
-                console.log("Message sent successfully to Slack!");
-            } else {
-                console.error("Error sending message to Slack:", data.error);
-            }
-        } catch (error) {
-            console.error("Slack API error:", error);
-        }
-    }
 	
     // Populate dropdown with Varshfal years
     document.getElementById('dob').addEventListener('change', function () {
@@ -409,16 +381,12 @@ input.addEventListener('input', function (event) {
                 link.click();
                 document.body.removeChild(link);
 				
-				// Send finalData and response success message to Slack
-                sendSlackMessage(`FROM WEB:\nFinal data: ${JSON.stringify(finalData)}\nReport generated successfully: ${filename}`);
            
             })
             .catch(error => {
                 console.error("Error:", error);
                 alert("There was an error processing the request: " + error.message);
 				
-				// Send error details to Slack
-                sendSlackMessage(`FROM WEB:\nFinal data: ${JSON.stringify(finalData)}\nError generating report: ${error.message}`);
           
             })
             .finally(() => {
