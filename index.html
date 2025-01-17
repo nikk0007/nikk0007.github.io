@@ -190,7 +190,7 @@
                 <option value="d10" disabled>Career (D10)</option>
                 <option value="wealth_through_property" disabled>Wealth Through Property</option>
                 <option value="astro_foundation" disabled>Astro Foundation</option>
-                <option value="vimshottari" disabled>Vimshottari Dasha</option>
+                <option value="dasha">Vimshottari Dasha</option>
                 <option value="lal_kitab" selected>Lal Kitab Advanced</option>
                 <option value="vedic_remedies" disabled>Vedic Remedies</option>
                 <option value="astro_vastu" disabled>Astro Vastu</option>
@@ -204,6 +204,25 @@
     <select id="varshfalYear" name="varshfal_year"></select>
 </div>
 
+ <div class="input-section" id="vimshottari-section" style="display: none;">
+		<p>The below info is Mandatory if you selected Vimshottari Dasha option</p>
+        <label for="dashaDate">Select FIRST Mahadasha END Date:</label>
+        <input type="date" id="dashaDate" name="dasha_date" value="1987-11-09">
+        <br><br>
+        <label for="dashaPlanet">Select First Mahadasha Planet:</label>
+        <select id="dashaPlanet" name="dasha_planet">
+            <option value="Su">Sun</option>
+            <option value="Mo">Moon</option>
+            <option value="Ma">Mars</option>
+            <option value="Me">Mercury</option>
+            <option value="Ju">Jupiter</option>
+            <option value="Ve">Venus</option>
+            <option value="Sa">Saturn</option>
+            <option value="Ra">Rahu</option>
+            <option value="Ke">Ketu</option>
+        </select>
+    </div>
+
 <p style="margin-top: 10px; font-size: 0.8em; color: #555;">
  - Join our whatsapp group using the link at the bottom of this page for feedback, suggestions, errata.</p>
         <button id="generateReportButton" type="submit" class="submit-button">Generate Report</button>
@@ -215,18 +234,26 @@
 <script>
 
 
-//show varshfal yar selection dropdown only when lal kitab is selected as report Type
- document.getElementById('report-type').addEventListener('change', function () {
-        const selectedValue = this.value;
-        const varshfalSection = document.getElementById('varshfal-section');
+// Show/hide sections based on the selected module
+document.getElementById('report-type').addEventListener('change', function () {
+    const selectedValue = this.value;
+    const varshfalSection = document.getElementById('varshfal-section');
+    const vimshottariSection = document.getElementById('vimshottari-section');
 
-        // Show the varshfal section only if 'lal_kitab' is selected
-        if (selectedValue === 'lal_kitab') {
-            varshfalSection.style.display = 'block';
-        } else {
-            varshfalSection.style.display = 'none';
-        }
-    });
+    // Toggle Varshfal section for Lal Kitab
+    if (selectedValue === 'lal_kitab') {
+        varshfalSection.style.display = 'block';
+    } else {
+        varshfalSection.style.display = 'none';
+    }
+
+    // Toggle Vimshottari Dasha section for Dasha
+    if (selectedValue === 'dasha') {
+        vimshottariSection.style.display = 'block';
+    } else {
+        vimshottariSection.style.display = 'none';
+    }
+});
 
     // Trigger change event on page load to handle the default selection
     document.getElementById('report-type').dispatchEvent(new Event('change'));
@@ -371,7 +398,9 @@ input.addEventListener('input', function (event) {
                 longitude: selectedLocation.longitude || null,
                 location_name: selectedLocation.location_name,
                 timezone_offset: selectedLocation.timezone_offset,
-            }
+            },
+			dasha_date: formData.get("dasha_date") || "1987-11-09", // Default date
+			dasha_planet: formData.get("dasha_planet") || "Su" // Default planet (Sun)
         };
 
         if (!finalData.place_of_birth.complete_name || (finalData.place_of_birth.latitude === null && finalData.place_of_birth.longitude === null)) {
@@ -425,6 +454,14 @@ input.addEventListener('input', function (event) {
     });
 	
 </script>
+
+<div style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">
+    <a href="upi://pay?pa=9650311070@upi&pn=Niket Singh&cu=INR" target="_blank" style="text-decoration: none;">
+        <img src="upi.png" alt="Donate via UPI" style="max-width: 350px; border: 0px solid #ddd; border-radius: 8px; padding: 5px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+    </a>
+</div>
+
+
 
  <!-- Footer Section -->
 <footer>
