@@ -181,7 +181,7 @@
 
         
 <p style="margin-top: 10px; font-size: 0.8em; color: #555;">
- - Now "Planets in Houses" module can also be selected from the "Select Module" dropdown below.<br>
+ - Now "Planets in Houses" and "Vimshottari Dasha" modules can also be selected from the "Select Module" dropdown below.<br>
         <div class="input-section">
             <label for="report-type">Select Module:</label>
             <select id="report-type" name="report_type" required>
@@ -190,7 +190,7 @@
                 <option value="d10" disabled>Career (D10)</option>
                 <option value="wealth_through_property" disabled>Wealth Through Property</option>
                 <option value="astro_foundation" disabled>Astro Foundation</option>
-                <option value="dasha" disabled>Vimshottari Dasha</option>
+                <option value="dasha">Vimshottari Dasha</option>
                 <option value="lal_kitab" selected>Lal Kitab Advanced</option>
                 <option value="vedic_remedies" disabled>Vedic Remedies</option>
                 <option value="astro_vastu" disabled>Astro Vastu</option>
@@ -205,22 +205,8 @@
 </div>
 
  <div class="input-section" id="vimshottari-section" style="display: none;">
-		<p>The below info is Mandatory if you selected Vimshottari Dasha option</p>
-        <label for="dashaDate">Select FIRST Mahadasha END Date:</label>
-        <input type="date" id="dashaDate" name="dasha_date" value="1987-11-09">
-        <br><br>
-        <label for="dashaPlanet">Select First Mahadasha Planet:</label>
-        <select id="dashaPlanet" name="dasha_planet">
-            <option value="Su">Sun</option>
-            <option value="Mo">Moon</option>
-            <option value="Ma">Mars</option>
-            <option value="Me">Mercury</option>
-            <option value="Ju">Jupiter</option>
-            <option value="Ve">Venus</option>
-            <option value="Sa">Saturn</option>
-            <option value="Ra">Rahu</option>
-            <option value="Ke">Ketu</option>
-        </select>
+		<p>Vimshottari Dasha Module is in testing phase.</p>
+       
     </div>
 
 <p style="margin-top: 10px; font-size: 0.8em; color: #555;">
@@ -398,9 +384,7 @@ input.addEventListener('input', function (event) {
                 longitude: selectedLocation.longitude || null,
                 location_name: selectedLocation.location_name,
                 timezone_offset: selectedLocation.timezone_offset,
-            },
-			dasha_date: formData.get("dasha_date") || "1987-11-09", // Default date
-			dasha_planet: formData.get("dasha_planet") || "Su" // Default planet (Sun)
+            }
         };
 
         if (!finalData.place_of_birth.complete_name || (finalData.place_of_birth.latitude === null && finalData.place_of_birth.longitude === null)) {
