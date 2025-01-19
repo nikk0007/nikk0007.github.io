@@ -181,15 +181,15 @@
 
         
 <p style="margin-top: 10px; font-size: 0.8em; color: #555;">
- - Now "Planets in Houses" and "Vimshottari Dasha" modules can also be selected from the "Select Module" dropdown below.<br>
+ - Now "Vimshottari Dasha" and "Transit" modules can also be selected from the "Select Module" dropdown below.<br>
         <div class="input-section">
             <label for="report-type">Select Module:</label>
             <select id="report-type" name="report_type" required>
                 <!--<option value="sango_saral_jyotish" disabled>Sango Saral Jyotish</option> -->
-                <option value="transit" disabled>Transit</option>
                 <option value="d10" disabled>Career (D10)</option>
                <!-- <option value="wealth_through_property" disabled>Wealth Through Property</option> -->
                 <option value="astro_foundation" disabled>Astro Foundation</option>
+				<option value="transit">Transit</option>
                 <option value="dasha">Vimshottari Dasha</option>
                 <option value="lal_kitab" selected>Lal Kitab Advanced</option>
                <!-- <option value="vedic_remedies" disabled>Vedic Remedies</option> -->
@@ -206,6 +206,11 @@
 
  <div class="input-section" id="vimshottari-section" style="display: none;">
 		<p>Vimshottari Dasha Module is in testing phase.</p>
+       
+    </div>
+	
+	<div class="input-section" id="transit-section" style="display: none;">
+		<p>Transit Module is in testing phase.</p>
        
     </div>
 
@@ -225,6 +230,8 @@ document.getElementById('report-type').addEventListener('change', function () {
     const selectedValue = this.value;
     const varshfalSection = document.getElementById('varshfal-section');
     const vimshottariSection = document.getElementById('vimshottari-section');
+	const transitSection = document.getElementById('transit-section');
+
 
     // Toggle Varshfal section for Lal Kitab
     if (selectedValue === 'lal_kitab') {
@@ -238,6 +245,13 @@ document.getElementById('report-type').addEventListener('change', function () {
         vimshottariSection.style.display = 'block';
     } else {
         vimshottariSection.style.display = 'none';
+    }
+	
+	 // Toggle Transit section for Dasha
+    if (selectedValue === 'trasnit') {
+        transitSection.style.display = 'block';
+    } else {
+        transitSection.style.display = 'none';
     }
 });
 
