@@ -170,7 +170,7 @@
 
         <div class="input-section">
             <label for="tob">Time of Birth (IST):</label>
-            <input type="time" id="tob" name="time_of_birth" value="12:00" required>
+            <input type="time" id="tob" name="time_of_birth" value="02:30"  required>
         </div>
 
         <div class="input-section">
@@ -181,7 +181,7 @@
 
         
 <p style="margin-top: 10px; font-size: 0.8em; color: #555;">
- - Now "Vimshottari Dasha" and "Transit" modules can also be selected from the "Select Module" dropdown below.<br>
+ - Now "Vimshottari Dasha" and "Transit" modules can also be selected from the "Select Module" dropdown below.</p><br>
         <div class="input-section">
             <label for="report-type">Select Module:</label>
             <select id="report-type" name="report_type" required>
@@ -189,8 +189,8 @@
                 <option value="d10" disabled>Career (D10)</option>
                <!-- <option value="wealth_through_property" disabled>Wealth Through Property</option> -->
                 <option value="astro_foundation" disabled>Astro Foundation</option>
-				<option value="transit">Transit</option>
-                <option value="dasha">Vimshottari Dasha</option>
+				<option value="transit">Transit (under development)</option>
+                <option value="dasha">Vimshottari Dasha (under development)</option>
                 <option value="lal_kitab" selected>Lal Kitab Advanced</option>
                <!-- <option value="vedic_remedies" disabled>Vedic Remedies</option> -->
                <!-- <option value="astro_vastu" disabled>Astro Vastu</option> -->
@@ -224,6 +224,11 @@
 
 <script>
 
+// Add a click event listener to ensure the time picker opens on tap
+    document.getElementById("tob").addEventListener("click", function () {
+        this.showPicker?.(); // Use the showPicker method if supported (e.g., on Chrome)
+        this.focus(); // Fallback to ensure the input is focused
+    });
 
 // Show/hide sections based on the selected module
 document.getElementById('report-type').addEventListener('change', function () {
@@ -372,7 +377,7 @@ input.addEventListener('input', function (event) {
 
         const data = await fetchLocationData(query);
         renderSuggestions(data);
-    }, 700); // 1000 ms delay
+    }, 700); // ms delay
 });
 
 
@@ -383,7 +388,7 @@ input.addEventListener('input', function (event) {
         const submitButton = document.querySelector("#generateReportButton");
         submitButton.disabled = true;
         const originalText = submitButton.innerHTML;
-        submitButton.innerHTML = `<span class="spinner"></span> Processing...`;
+        submitButton.innerHTML = `<span class="spinner"></span> Processing your request. Please Wait...`;
 
         const formData = new FormData(this);
         const finalData = {
