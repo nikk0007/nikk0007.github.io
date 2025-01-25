@@ -389,7 +389,7 @@ input.addEventListener('input', function (event) {
         const submitButton = document.querySelector("#generateReportButton");
         submitButton.disabled = true;
         const originalText = submitButton.innerHTML;
-        submitButton.innerHTML = `<span class="spinner"></span> Processing your request. Please Wait...`;
+        submitButton.innerHTML = `<span class="spinner"></span> Processing. Please Wait...`;
 
         const formData = new FormData(this);
         const finalData = {
@@ -459,11 +459,11 @@ input.addEventListener('input', function (event) {
 	
 </script>
 
-<!--<div style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">
+<div style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">
     <a href="upi://pay?pa=9650311070@upi&pn=Niket Singh&cu=INR&tn=AstroAutomation" target="_blank" style="text-decoration: none;">
         <img src="upi.png" alt="Donate via UPI" style="max-width: 350px; border: 0px solid #ddd; border-radius: 8px; padding: 5px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
     </a>
-</div> -->
+</div>
 
 
 
